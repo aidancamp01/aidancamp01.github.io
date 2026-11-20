@@ -10,6 +10,7 @@ const EYE = 1.7;           // camera height
 const ITEM_GAP = 5.5;      // distance between exhibits
 const FRAME_W = 2.6;
 const FRAME_H = 1.8;
+const SIGN_Y = 3.05;     // sign centre height
 
 const COLORS = {
   bg: 0xefebe4,
@@ -117,7 +118,10 @@ function drawExhibit(item, section, image) {
     const iw = image.width * s, ih = image.height * s;
     ctx.save();
     ctx.beginPath(); ctx.rect(0, 0, artW, H); ctx.clip();
-    ctx.drawImage(image, (artW - iw) / 2, (H - ih) / 2, iw, ih);
+    const [fx, fy] = item.imageFocus || [0.5, 0.5];
+    const ox = clamp(artW / 2 - fx * iw, artW - iw, 0);
+    const oy = clamp(H / 2 - fy * ih, H - ih, 0);
+    ctx.drawImage(image, ox, oy, iw, ih);
     ctx.restore();
   } else {
     drawArtwork(ctx, 0, 0, artW, H, section.accent, item.title + section.id);
@@ -175,22 +179,112 @@ function drawExhibit(item, section, image) {
   return c;
 }
 
-function drawBanner(section, index) {
+// Gallery room sign: dark charcoal panel with an arched top and brass detailing.
+// Every room uses the same palette so the signage reads as one system.
+const SIGN = { w: 3.0, h: 1.15, arch: 0.28, charcoal: "#24211d", brass: "#b8955c", cream: "#f3ecdf" };
+
+function signShape(w, h, arch) {
+  const s = new THREE.Shape();
+  s.moveTo(-w / 2, -h / 2);
+  s.lineTo(w / 2, -h / 2);
+  s.lineTo(w / 2, h / 2 - arch);
+  s.quadraticCurveTo(0, h / 2 + arch, -w / 2, h / 2 - arch);
+  s.closePath();
+  return s;
+}
+
+function drawSign(section, index) {
+  const W = 1536, H = Math.round((W * (SIGN.h + SIGN.arch * 0)) / SIGN.w);
+  // canvas covers the face's bounding box: x in [-w/2, w/2], y in [-h/2, h/2]
   const c = document.createElement("canvas");
-  c.width = 2048; c.height = 360;
+  c.width = W; c.height = H;
   const ctx = c.getContext("2d");
-  ctx.fillStyle = section.accent;
-  ctx.fillRect(0, 0, c.width, c.height);
-  ctx.fillStyle = "rgba(255,255,255,0.75)";
-  ctx.font = '600 34px Inter, sans-serif';
-  ctx.letterSpacing = "10px";
+  const px = (x) => ((x + SIGN.w / 2) / SIGN.w) * W;
+  const py = (y) => (1 - (y + SIGN.h / 2) / SIGN.h) * H;
+  ctx.fillStyle = SIGN.charcoal;
+  ctx.fillRect(0, 0, W, H);
+  // subtle vertical sheen
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, "rgba(255,255,255,0.05)");
+  g.addColorStop(1, "rgba(0,0,0,0.12)");
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+  // inset brass hairline following the arch
+  const inset = 0.07, w = SIGN.w - inset * 2, h = SIGN.h - inset * 2, arch = SIGN.arch * 0.92;
+  ctx.strokeStyle = SIGN.brass;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(px(-w / 2), py(-h / 2));
+  ctx.lineTo(px(w / 2), py(-h / 2));
+  ctx.lineTo(px(w / 2), py(h / 2 - arch));
+  ctx.quadraticCurveTo(px(0), py(h / 2 + arch), px(-w / 2), py(h / 2 - arch));
+  ctx.closePath();
+  ctx.stroke();
+
   ctx.textAlign = "center";
-  ctx.fillText(`ROOM ${String(index + 1).padStart(2, "0")}`, c.width / 2, 110);
+  ctx.fillStyle = SIGN.brass;
+  ctx.font = '600 30px Inter, sans-serif';
+  ctx.letterSpacing = "12px";
+  ctx.fillText(`ROOM ${String(index + 1).padStart(2, "0")}`, W / 2 + 6, H * 0.3);
   ctx.letterSpacing = "0px";
-  ctx.fillStyle = "#fff";
+  ctx.fillStyle = SIGN.cream;
   ctx.font = '600 150px "Cormorant Garamond", Georgia, serif';
-  ctx.fillText(section.label, c.width / 2, 270);
+  ctx.fillText(section.label, W / 2, H * 0.64);
+  // ornament: line, diamond, line
+  const oy = H * 0.8;
+  ctx.strokeStyle = SIGN.brass;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(W / 2 - 130, oy); ctx.lineTo(W / 2 - 18, oy);
+  ctx.moveTo(W / 2 + 18, oy); ctx.lineTo(W / 2 + 130, oy);
+  ctx.stroke();
+  ctx.fillStyle = SIGN.brass;
+  ctx.beginPath();
+  ctx.moveTo(W / 2, oy - 9); ctx.lineTo(W / 2 + 9, oy); ctx.lineTo(W / 2, oy + 9); ctx.lineTo(W / 2 - 9, oy);
+  ctx.closePath();
+  ctx.fill();
   return c;
+}
+
+function buildSign(section, index, renderer, rodLen) {
+  const group = new THREE.Group();
+  const brassMat = new THREE.MeshStandardMaterial({ color: SIGN.brass, metalness: 0.7, roughness: 0.35 });
+  const bodyMat = new THREE.MeshStandardMaterial({ color: SIGN.charcoal, roughness: 0.6 });
+
+  // brass backing, slightly larger, peeking out as a rim
+  const rim = new THREE.Mesh(
+    new THREE.ExtrudeGeometry(signShape(SIGN.w + 0.08, SIGN.h + 0.08, SIGN.arch + 0.01), { depth: 0.04, bevelEnabled: false, curveSegments: 32 }),
+    brassMat
+  );
+  rim.position.z = -0.05;
+  group.add(rim);
+  const body = new THREE.Mesh(
+    new THREE.ExtrudeGeometry(signShape(SIGN.w, SIGN.h, SIGN.arch), {
+      depth: 0.05, bevelEnabled: true, bevelThickness: 0.012, bevelSize: 0.012, bevelSegments: 2, curveSegments: 32,
+    }),
+    bodyMat
+  );
+  body.position.z = -0.01;
+  group.add(body);
+
+  // printed face, UVs mapped to the face's bounding box
+  const faceGeo = new THREE.ShapeGeometry(signShape(SIGN.w, SIGN.h, SIGN.arch), 32);
+  const pos = faceGeo.attributes.position, uv = faceGeo.attributes.uv;
+  for (let i = 0; i < pos.count; i++) {
+    uv.setXY(i, (pos.getX(i) + SIGN.w / 2) / SIGN.w, (pos.getY(i) + SIGN.h / 2) / SIGN.h);
+  }
+  const face = new THREE.Mesh(faceGeo, new THREE.MeshBasicMaterial({ map: makeTexture(drawSign(section, index), renderer) }));
+  face.position.z = 0.055;
+  group.add(face);
+
+  // brass hanging rods
+  for (const rx of [-(SIGN.w / 2 - 0.35), SIGN.w / 2 - 0.35]) {
+    const topY = SIGN.h / 2 - SIGN.arch * 0.35;
+    const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, rodLen, 6), brassMat);
+    rod.position.set(rx, topY + rodLen / 2, -0.02);
+    group.add(rod);
+  }
+  return group;
 }
 
 function drawFinale(content) {
@@ -353,27 +447,16 @@ export async function createGallery(canvas, content, hooks = {}) {
 
   content.sections.forEach((section, si) => {
     z -= 3;
-    // hanging room banner
-    const banner = new THREE.Mesh(
-      new THREE.PlaneGeometry(5.2, 0.92),
-      new THREE.MeshBasicMaterial({ map: makeTexture(drawBanner(section, si), renderer), side: THREE.DoubleSide })
-    );
-    banner.position.set(0, HALL_H - 0.95, z);
-    scene.add(banner);
-    for (const rx of [-2.3, 2.3]) {
-      const rod = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.01, 0.01, 0.5, 6),
-        new THREE.MeshBasicMaterial({ color: COLORS.trim })
-      );
-      rod.position.set(rx, HALL_H - 0.25, z);
-      scene.add(rod);
-    }
+    // hanging room sign
+    const sign = buildSign(section, si, renderer, HALL_H - SIGN_Y - (SIGN.h / 2 - SIGN.arch * 0.35));
+    sign.position.set(0, SIGN_Y, z);
+    scene.add(sign);
     waypoints.push({
-      pos: new THREE.Vector3(0, EYE, z + 4.2),
-      target: new THREE.Vector3(0, HALL_H - 1.6, z - 4),
+      pos: new THREE.Vector3(0, EYE, z + 5.6),
+      target: new THREE.Vector3(0, 2.35, z - 6),
       room: si,
     });
-    z -= 3.5;
+    z -= 4;
 
     section.items.forEach((item, ii) => {
       const side = ii % 2 === 0 ? -1 : 1;
@@ -494,19 +577,28 @@ export async function createGallery(canvas, content, hooks = {}) {
     camera.aspect = w / h;
     camera.fov = w / h < 1 ? 70 : 52;
     camera.updateProjectionMatrix();
-    segPx = h * 0.9;
+    segPx = h * 1.6; // more scrolling per exhibit = slower, calmer movement
     document.getElementById("scroll-space").style.height = `${last * segPx + h}px`;
   }
 
+  // Smooth curves through every waypoint, so the camera never changes
+  // direction abruptly between exhibits.
+  const ahead = new THREE.Vector3();
+  const posCurve = new THREE.CatmullRomCurve3(waypoints.map((w) => w.pos), false, "centripetal");
+  const targetCurve = new THREE.CatmullRomCurve3(waypoints.map((w) => w.target), false, "centripetal");
   function pose(p, outPos, outTarget) {
     const i = clamp(Math.floor(p), 0, last - 1);
-    const u = smooth(0.12, 0.88, p - i); // dwell at each exhibit
-    const a = waypoints[i], b = waypoints[i + 1];
-    outPos.lerpVectors(a.pos, b.pos, u);
-    outTarget.lerpVectors(a.target, b.target, u);
-    // gentle sway while walking
-    const walk = Math.sin(u * Math.PI);
-    outPos.y += Math.sin(p * Math.PI * 2) * 0.03 * walk;
+    const f = p - i;
+    // ease gently into each exhibit without stopping dead
+    const u = f + (smooth(0, 1, f) - f) * 0.55;
+    const t = (i + u) / last;
+    posCurve.getPoint(t, outPos);
+    targetCurve.getPoint(t, outTarget);
+    // between exhibits, look down the hall in the direction of travel
+    // rather than at bare wall
+    const between = Math.pow(Math.sin(Math.PI * f), 1.5) * 0.75;
+    ahead.set(outPos.x * 0.4, 2.1, outPos.z - 9);
+    outTarget.lerp(ahead, between);
   }
 
   const raycaster = new THREE.Raycaster();
@@ -536,7 +628,7 @@ export async function createGallery(canvas, content, hooks = {}) {
     const dt = Math.min((time - lastTime) / 1000 || 0, 0.1);
     lastTime = time;
 
-    currentP += (targetP - currentP) * (1 - Math.exp(-dt * 3.2));
+    currentP += (targetP - currentP) * (1 - Math.exp(-dt * 1.8));
     if (Math.abs(targetP - currentP) < 0.0005) currentP = targetP;
     mouseSmooth.lerp(mouse, 1 - Math.exp(-dt * 3));
 
@@ -557,7 +649,8 @@ export async function createGallery(canvas, content, hooks = {}) {
       lastRoom = wp.room;
       hooks.onRoomChange?.(wp.room);
     }
-    hooks.onProgress?.(currentP / last, wp);
+    const near = Math.abs(currentP - Math.round(currentP)) < 0.2;
+    hooks.onProgress?.(currentP / last, near ? wp : {});
     renderer.render(scene, camera);
   }
 

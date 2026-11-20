@@ -7,6 +7,7 @@ const esc = (s) =>
 // ---------- shared exhibit markup ----------
 function itemBody(item) {
   let html = "";
+  if (item.image) html += `<img class="item-image" src="${esc(item.image)}" alt="${esc(item.imageAlt || item.title)}" loading="lazy" />`;
   if (item.summary) html += `<p class="summary">${esc(item.summary)}</p>`;
   if (item.details?.length) html += `<ul class="details">${item.details.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>`;
   if (item.tags?.length) html += `<ul class="tags">${item.tags.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>`;
@@ -36,7 +37,7 @@ else $("hud-resume").remove();
 // ---------- plain view ----------
 $("plain-content").innerHTML = `
   <header class="plain-hero">
-    <p class="eyebrow">Portfolio · ${esc(content.location)}</p>
+    <p class="eyebrow">Professional Portfolio · ${esc(content.location)}</p>
     <h1>${esc(content.name)}</h1>
     <p class="hero-title">${esc(content.title)}</p>
     <p class="hero-tagline">${esc(content.tagline)}</p>
