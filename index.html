@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aidan Campbell · Portfolio</title>
+  <meta name="description" content="The portfolio of Aidan Campbell, presented as a walk-through gallery." />
+  <meta property="og:title" content="Aidan Campbell · Portfolio" />
+  <meta property="og:description" content="Step into the gallery: experience, projects and skills." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://aidancamp01.github.io/" />
+  <meta name="theme-color" content="#efebe4" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="mode-loading">
+  <!-- 3D gallery -->
+  <canvas id="gallery" aria-hidden="true"></canvas>
+  <div id="scroll-space" aria-hidden="true"></div>
+
+  <!-- Entrance overlay -->
+  <header id="hero" class="hero">
+    <p class="eyebrow">Portfolio</p>
+    <h1 id="hero-name"></h1>
+    <p id="hero-title" class="hero-title"></p>
+    <p id="hero-tagline" class="hero-tagline"></p>
+    <div class="scroll-cue"><span></span>Scroll to enter the gallery</div>
+  </header>
+
+  <!-- Gallery HUD -->
+  <nav id="hud" class="hud" aria-label="Gallery navigation">
+    <a class="hud-name" href="#" id="hud-home"></a>
+    <ol id="hud-rooms" class="hud-rooms"></ol>
+    <div class="hud-actions">
+      <a id="hud-resume" class="btn btn-ghost" href="#" target="_blank" rel="noopener">Resume</a>
+      <button id="toggle-plain" class="btn">Plain view</button>
+    </div>
+  </nav>
+  <div id="hint" class="hint">Click a frame to look closer</div>
+  <div id="progress" class="progress"><span></span></div>
+
+  <!-- Exhibit detail modal -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <article class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" data-close aria-label="Close">×</button>
+      <p id="modal-section" class="eyebrow"></p>
+      <h2 id="modal-title"></h2>
+      <p id="modal-subtitle" class="modal-subtitle"></p>
+      <div id="modal-body"></div>
+    </article>
+  </div>
+
+  <!-- Plain view: same content as the gallery, readable anywhere -->
+  <main id="plain" class="plain">
+    <div class="plain-bar">
+      <span class="plain-name" id="plain-bar-name"></span>
+      <button id="toggle-gallery" class="btn">Enter the gallery</button>
+    </div>
+    <div id="plain-content" class="plain-content"></div>
+  </main>
+
+  <noscript>
+    <p style="padding:2rem;font-family:sans-serif">This portfolio needs JavaScript to display.</p>
+  </noscript>
+
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.min.js" } }
+  </script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
