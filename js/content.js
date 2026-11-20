@@ -27,7 +27,7 @@ export const content = {
   sections: [
     {
       id: "about",
-      label: "About",
+      label: "About Me",
       accent: "#b85c38",
       items: [
         {
@@ -38,9 +38,11 @@ export const content = {
           details: [
             "B.A. in History with a minor in Digital Humanities from UC Berkeley",
             "Interested in collections management, museum administration, data and records work, and AI evaluation",
-            "Volunteer with Blue Line Arts in Roseville, CA",
           ],
           tags: ["Research", "Collections", "Data", "AI evaluation"],
+          image: "assets/aidan-portrait.jpg",
+          imageFocus: [0.56, 0.45],
+          imageAlt: "Portrait of Aidan Campbell",
         },
         {
           title: "Primary strengths",
