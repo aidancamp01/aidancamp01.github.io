@@ -7,9 +7,9 @@
 
 export const content = {
   name: "Aidan Campbell",
-  title: "Historian · Digital Humanities · Collections & Data",
+  title: "Historian · Digital Humanities · Research & Data",
   tagline:
-    "UC Berkeley History graduate seeking roles in collections management, museum administration, and data and records work.",
+    "An interdisciplinary UC Berkeley History graduate bringing source-verification rigor to collections, data, and AI evaluation work.",
   location: "Sacramento, CA",
 
   // Path to a resume PDF in /assets. Leave empty to hide the resume button.
@@ -32,27 +32,28 @@ export const content = {
       items: [
         {
           title: "Every research trail starts with a source",
-          subtitle: "Sacramento, CA",
+          subtitle: "Interdisciplinary scholar · Sacramento, CA",
           summary:
-            "I'm an interdisciplinary historian and digital humanist from UC Berkeley. My work has taken me from cataloging zoological specimens at the Museum of Vertebrate Zoology to annotating and evaluating AI model outputs, always with the same care for accurate records and clear context.",
+            "I'm a historian and digital humanist from UC Berkeley. My work has taken me from cataloging specimens at the Museum of Vertebrate Zoology to evaluating AI model outputs, always with the same care for verified sources, accurate records, and clear communication.",
           details: [
-            "Looking for roles in collections management, museum administration, and data and records work.",
-            "Volunteer with Blue Line Arts in Roseville, CA.",
+            "B.A. in History with a minor in Digital Humanities from UC Berkeley",
+            "Interested in collections management, museum administration, data and records work, and AI evaluation",
+            "Volunteer with Blue Line Arts in Roseville, CA",
           ],
-          tags: ["Collections", "Archives", "Data", "Research"],
+          tags: ["Research", "Collections", "Data", "AI evaluation"],
         },
         {
           title: "Primary strengths",
           subtitle: "What I bring to a team",
           summary:
-            "Independent research, data visualization across many tools, archival and cataloging rigor, and collaboration within and across teams.",
+            "Independent research, data visualization across many platforms, archival and cataloging rigor, and collaboration within and across teams.",
           details: [
-            "Independent research",
-            "Data visualization across a variety of tools and platforms",
+            "Cross-referencing authorities and separating documented fact from inference",
+            "Translating technical or research findings into clear recommendations for varied audiences",
             "Archival and cataloging rigor",
-            "Inter- and intra-team collaboration",
+            "Project management and inter- and intra-team collaboration",
           ],
-          tags: ["Research", "Data viz", "Cataloging", "Collaboration"],
+          tags: ["Source verification", "Data viz", "Cataloging", "Communication"],
         },
       ],
     },
@@ -62,26 +63,57 @@ export const content = {
       accent: "#2f6f73",
       items: [
         {
-          title: "Museum of Vertebrate Zoology",
-          subtitle: "UC Berkeley · TODO: role title and dates",
+          title: "Project Lighthouse",
+          subtitle: "Fellow · 2026 – Present",
           summary:
-            "Cataloged zoological specimens and their metadata, and helped create and publish a commemoration of the ascension of director O.P. Pearson.",
+            "Design prompts and evaluation rubrics that test how AI models handle tasks requiring the accurate use of personal financial information.",
           details: [
-            "Cataloged specimens and associated metadata",
-            "Helped create and publish a commemoration of director O.P. Pearson",
+            "Designed realistic professional prompts and evaluation rubrics assessing how AI models handle tasks that require the accurate use of personal financial information.",
+            "Evaluated AI-generated outputs against those rubrics, applying rigorous verification standards to judge accuracy and appropriate handling of sensitive personal data.",
+            "Contributed to a research initiative on AI model performance in personal-finance contexts, an area closely tied to consumer data-privacy considerations.",
           ],
-          tags: ["Cataloging", "Metadata", "Collections"],
+          tags: ["AI evaluation", "Rubric design", "Data privacy"],
         },
         {
           title: "Project Ohm",
-          subtitle: "TODO: role title and dates",
-          summary: "Annotate and evaluate AI model outputs.",
-          details: [],
-          tags: ["AI evaluation", "Annotation"],
+          subtitle: "AI Annotator · March 2026 – July 2026",
+          summary:
+            "Reviewed AI model outputs for accuracy and relevance, catching errors before they reached training data.",
+          details: [
+            "Reviewed AI model outputs for accuracy and relevance, applying a verification-first standard to distinguish correct results from errors before they reached training data.",
+            "Categorized and organized image and text data in support of consistent data-quality and governance standards.",
+            "Communicated structured feedback on annotation techniques, translating technical findings into actionable process improvements for the broader team.",
+          ],
+          tags: ["Annotation", "Data quality", "Data governance"],
+        },
+        {
+          title: "Museum of Vertebrate Zoology",
+          subtitle: "Research Apprentice · Berkeley, CA · Aug 2024 – May 2025",
+          summary:
+            "Cataloged specimens and metadata, verifying and cross-referencing records for research and educational use.",
+          details: [
+            "Cataloged specimens and metadata, verifying and cross-referencing records to maintain data accuracy and integrity for research and educational use.",
+            "Developed educational materials that translated research findings for public and academic audiences.",
+            "Coordinated inventory of supplies and resources for streamlined exhibit preparation.",
+            "Helped create and publish a commemoration of the ascension of director O.P. Pearson.",
+          ],
+          tags: ["Cataloging", "Metadata", "Collections", "Exhibits"],
+        },
+        {
+          title: "Hobby Lobby",
+          subtitle: "Lead Stockman / Assistant Lead of Crafts · Roseville, CA · Mar 2020 – Jun 2023",
+          summary:
+            "Hands-on experience with large-retailer operations, inventory management, shipment logistics, and merchandising.",
+          details: [
+            "Gained firsthand experience with large-retailer operations, including inventory management, shipment logistics, and merchandising, in a high-volume retail environment.",
+            "Collaborated with team members to maintain inventory levels and accuracy, ensuring product availability for customers.",
+            "Exercised independent judgment and problem-solving in day-to-day store operations and merchandising decisions.",
+          ],
+          tags: ["Inventory", "Logistics", "Leadership"],
         },
         {
           title: "Blue Line Arts",
-          subtitle: "Volunteer · Roseville, CA",
+          subtitle: "Volunteer · Roseville, CA · July 2025 – Present",
           summary: "Volunteer with Blue Line Arts, a community arts organization in Roseville.",
           details: [],
           tags: ["Arts", "Community"],
@@ -94,21 +126,42 @@ export const content = {
       accent: "#3d4f8f",
       items: [
         {
-          title: "Honors thesis",
-          subtitle: "UC Berkeley · History",
+          title: "The Magnetism of Modern Tourism",
+          subtitle: "UC Berkeley Digital Humanities",
           summary:
-            "An honors thesis on institutional power and the suppression of insurrections against marginalized groups in the Caribbean.",
-          details: [],
-          tags: ["Historical research", "Caribbean history"],
+            "An interactive ArcGIS StoryMap exploring the cultural, infrastructural, and emotional factors behind the world's most visited cities.",
+          details: [
+            "Independently designed and produced an interactive ArcGIS StoryMap exploring the cultural, infrastructural, and emotional factors behind the world's most visited cities.",
+            "Created maps, infographics, sentiment analyses, and interactive visual stories with ArcGIS, Datawrapper, Canva, Voyant, Infogram, and Kepler.gl.",
+            "Ran text and sentiment analysis with Voyant Tools on global travel reviews to find recurring emotional and linguistic patterns in perceptions of major destinations.",
+            "Applied data cleaning and visualization coding in Python and JavaScript environments (via Kepler.gl and ArcGIS Online) to process large-scale tourism and mobility data.",
+          ],
+          tags: ["ArcGIS StoryMap", "Sentiment analysis", "Kepler.gl", "Python"],
           link: "",
         },
         {
-          title: "O.P. Pearson commemoration",
-          subtitle: "Museum of Vertebrate Zoology",
+          title: "Real Reels",
+          subtitle: "Independent project",
           summary:
-            "Helped create and publish a commemoration marking the ascension of director O.P. Pearson.",
-          details: [],
-          tags: ["Archives", "Publishing"],
+            "A digital archive tracing the evolution of the global film industry from its inception to the present day.",
+          details: [
+            "Designed and developed a comprehensive digital archive tracing the evolution of the global film industry from its inception to the present day.",
+            "Researched key milestones, including technological innovations such as sound integration, color film, and digital cinematography.",
+            "Curated and annotated materials on major cinematic movements, from silent-era expressionism to contemporary independent and streaming-era productions.",
+            "Used digital visualization and archival tools to organize metadata, improve navigation, and highlight patterns in cinematic evolution.",
+          ],
+          tags: ["Digital archive", "Curation", "Metadata"],
+          link: "",
+        },
+        {
+          title: "Institutionalizing Insurrection Suppression(s)",
+          subtitle: "Honors thesis · UC Berkeley History",
+          summary:
+            "Independent research analyzing institutional and legal responses to civil unrest against marginalized groups in the Caribbean.",
+          details: [
+            "Independent research analyzing institutional and legal responses to civil unrest, requiring careful verification and cross-referencing of primary source records.",
+          ],
+          tags: ["Primary sources", "Historical research"],
           link: "",
         },
       ],
@@ -120,18 +173,34 @@ export const content = {
       items: [
         {
           title: "University of California, Berkeley",
-          subtitle: "B.A. History · Digital Humanities · 3.83 GPA",
-          summary:
-            "Bachelor of Arts in History with a focus in Digital Humanities, including an honors thesis in Caribbean history.",
-          details: [],
+          subtitle: "B.A. History, May 2025 · Minor in Digital Humanities, Aug 2025",
+          summary: "History major with a 3.83 GPA and a Digital Humanities minor with a 4.0 GPA.",
+          details: [
+            "B.A. in History · GPA 3.83",
+            "Minor in Digital Humanities · GPA 4.0",
+            "Honors thesis: “Institutionalizing Insurrection Suppression(s)”",
+          ],
           tags: ["History", "Digital Humanities"],
         },
         {
-          title: "Tools",
-          subtitle: "Research, mapping and visualization",
-          summary: "Comfortable across mapping, text analysis, programming, and charting tools.",
-          details: [],
-          tags: ["ArcGIS", "Python", "Voyant", "Datawrapper"],
+          title: "Skills & tools",
+          subtitle: "Research, data and communication",
+          summary:
+            "Research and source verification, AI output review and data governance, data and statistical analysis, and digital storytelling.",
+          details: [
+            "Research & Source Verification · AI Output Review & Data Governance · Data Analysis · Statistical Analysis",
+            "Research Methodology · Written & Public Communication · Project Management · Information Systems",
+            "Digital Storytelling · Collaboration · Inventory Management · Preservation Techniques",
+            "Tools: ArcGIS, Datawrapper, Canva, Voyant, Infogram, Kepler.gl, Python, JavaScript",
+          ],
+          tags: ["Python", "ArcGIS", "Voyant", "Datawrapper", "Kepler.gl"],
+        },
+        {
+          title: "Awards & honors",
+          subtitle: "Academic recognition",
+          summary: "President's Honor Roll (Spring 2020, Spring 2021) and Dean's List (Fall 2020).",
+          details: ["President's Honor Roll · Spring 2020, Spring 2021", "Dean's List · Fall 2020"],
+          tags: [],
         },
       ],
     },

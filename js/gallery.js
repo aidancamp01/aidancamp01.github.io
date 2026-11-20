@@ -140,7 +140,7 @@ function drawExhibit(item, section, image) {
     y += 4;
     ctx.fillStyle = COLORS.muted;
     ctx.font = '500 27px Inter, sans-serif';
-    for (const line of wrapLines(ctx, item.subtitle, maxW, 1)) { ctx.fillText(line, x, y); y += 36; }
+    for (const line of wrapLines(ctx, item.subtitle, maxW, 2)) { ctx.fillText(line, x, y); y += 36; }
   }
 
   y += 30;
